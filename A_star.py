@@ -203,7 +203,7 @@ class AStar:
             if next_ in self.close_set:
                 continue
 
-            # 把节点的 G 代价改成 F 代价
+            # 把节点的 G 代价改成 F 代价 NOTE: F = G + H
             H = next_ - self.end
             next_.cost += H
 

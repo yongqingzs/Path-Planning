@@ -107,8 +107,8 @@ class SetQueue:
             qlist = list(self.queue)        # 索引元素, set无法索引需转换
             idx = qlist.index(node)         # O(n)
             if node.cost < qlist[idx].cost: # 新节点代价更小则加入新节点
-                self.queue.remove(node)     # O(1)
                 self.queue.add(node)        # O(1) 移除node和加入node的hash相同, 但cost和parent不同
+                self.queue.remove(node)     # O(1)
         else:
             self.queue.add(node)            # O(1)
 

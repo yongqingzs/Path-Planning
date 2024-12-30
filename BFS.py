@@ -10,6 +10,8 @@ from typing import Union
 from functools import lru_cache
 from collections import deque
 from dataclasses import dataclass
+
+import numpy as np
 from common import tic, toc, GridMap
     
 
@@ -167,7 +169,8 @@ class BFS:
                 (-move_step, -move_step), # 左下
                 ]
             return move[0:move_direction] # 坐标增量
-        return _move(self.move_step, self.move_direction)
+        return _move(self.move_step, self.move_direction) # need
+        # return _move(self.move_step, self.move_direction)[::-1] 
 
 
     def _update_open_list(self, curr: Node):
@@ -204,9 +207,11 @@ class BFS:
 
         # 正向搜索节点
         tic()
+        count = 0
         while self.open_deque:
+            count += 1
             # 弹出 OpenList 最前的节点
-            curr = self.open_deque.popleft()
+            curr = self.open_deque.popleft() # 先pop上面 (0, move_step)
             # 更新 OpenList
             self._update_open_list(curr)
             # 更新 CloseList
@@ -214,6 +219,10 @@ class BFS:
             # 结束迭代
             if curr == self.end:
                 break
+            if (count % 100) == 0:
+                # 计算cur和end的欧氏距离
+                dis = np.sqrt((curr.x - self.end.x)**2 + (curr.y - self.end.y)**2)
+                print(f"当前距离: {dis}")
         print("路径搜索完成\n")
         toc()
     

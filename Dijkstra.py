@@ -12,7 +12,7 @@ Created on Thu Mar 30 16:45:58 2023
 from functools import lru_cache
 from common import *
 
-Queue_Type = 2
+Queue_Type = 0
 """
 # OpenList 采用的 PriorityQueue 的结构
 ## 0 -> SetQueue
@@ -156,7 +156,7 @@ class Dijkstra:
             # 新位置是否碰到障碍物
             if self._is_collided(next_):
                 continue
-            # 新位置是否在 CloseList 中
+            # 新位置是否在 CloseList 中 NOTE: 即使在open_que中，也会进入下一个判断
             if next_ in self.close_set:
                 continue
 

@@ -110,7 +110,8 @@ class HybridNode:
 
     def is_end(self, err = ERR):
         """是否终点, 启发值H小于err"""
-        if self.cost - self.G < err:
+        # if self.cost - self.G < err:
+        if (math.sqrt((self.x - END[0])**2 + (self.y - END[1])**2) < err):
             return True
         return False
     
@@ -154,8 +155,8 @@ class HybridNode:
     @classmethod
     def calculate_heuristic(cls, P, TARG):
         """启发函数"""
-        return cls.calculate_distance(P, TARG)       # 欧式距离
-        #return abs(P[0]-TARG[0]) + abs(P[1]-TARG[1]) # 曼哈顿距离
+        # return cls.calculate_distance(P, TARG)       # 欧式距离
+        return abs(P[0]-TARG[0]) + abs(P[1]-TARG[1]) # 曼哈顿距离
 
 
 

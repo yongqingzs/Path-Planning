@@ -10,6 +10,7 @@ from typing import Union
 from functools import lru_cache
 from dataclasses import dataclass
 from common import tic, toc, GridMap
+import numpy as np
     
 
 # 地图读取
@@ -167,7 +168,8 @@ class DFS:
                 (-move_step, -move_step), # 左下
                 ]
             return move[0:move_direction] # 坐标增量
-        return _move(self.move_step, self.move_direction)[::-1] # 后入先出, 斜着搜索太慢, 把直的放后面
+        # return _move(self.move_step, self.move_direction)[::-1] # 后入先出, 斜着搜索太慢, 把直的放后面
+        return _move(self.move_step, self.move_direction)
 
 
     def _update_open_list(self, curr: Node):
@@ -204,9 +206,11 @@ class DFS:
 
         # 正向搜索节点
         tic()
+        count = 0
         while self.open_list:
+            count += 1
             # 弹出 OpenList 最后的节点
-            curr = self.open_list.pop()
+            curr = self.open_list.pop() # 先pop下面 (0, move_step)
             # 更新 OpenList
             self._update_open_list(curr)
             # 更新 CloseList
@@ -214,7 +218,12 @@ class DFS:
             # 结束迭代
             if curr == self.end:
                 break
+            if (count % 100) == 0:
+                # 计算cur和end的欧氏距离
+                dis = np.sqrt((curr.x - self.end.x)**2 + (curr.y - self.end.y)**2)
+                print(f"当前距离: {dis}")
         print("路径搜索完成\n")
+        print(f"搜索次数: {count}")
         toc()
     
         # 节点组合成路径
